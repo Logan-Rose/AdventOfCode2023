@@ -33,10 +33,52 @@ def getFirstNumber(word):
             return word[i:j]
     return '0'
 
+# Part One
+
 sum = 0
 for i in range(len(wordList)):
-    # Initially misread the question and thought I needed first and last numbers, but it is actually first and last digits. I updated the code here to take the first digit from the first number and the last digit from the last number becuase I'm lazy
+    # Initially misread the question and thought I needed first and last numbers, but it is actually first and last digits.
+    # I updated the code here to take the first digit from the first number and the last digit from the last number becuase I'm lazy
     first = getFirstNumber(wordList[i])[0]
     last = getLastNumber(wordList[i])[-1]
     sum += int(first+last)
-print(sum)
+print("Part One Answer (Original Method): " + str(sum))
+
+# Part Two
+import regex as re
+
+
+numberDict = {
+    "one": "1",
+    "two": "2",
+    "three": "3",
+    "four": "4",
+    "five": "5",
+    "six": "6",
+    "seven": "7",
+    "eight":"8",
+    "nine": "9"
+}
+
+newSum = 0
+for word in wordList:
+    digits = re.findall('one|two|three|four|five|six|seven|eight|nine|\d', word, overlapped=True)
+    for i in range(len(digits)):
+        if(digits[i] in numberDict):
+            digits[i] = numberDict[digits[i]]
+    if len(digits):
+        newSum += int(digits[0] + digits[-1])
+    
+print("Part Two Answer: " + str(newSum))
+
+
+# I realized I can use a simple version of the code dveloped for part two to solve the first problem as well
+# While it is not computationally any more efficient, it is fewer lines of code
+
+newSum = 0
+for word in wordList:
+    digits = re.findall('\d', word)
+    if len(digits):
+        newSum += int(digits[0] + digits[-1])
+    
+print("Part One Answer (using regex): " + str(newSum))
