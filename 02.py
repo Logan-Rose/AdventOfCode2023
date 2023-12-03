@@ -28,7 +28,7 @@ for game in games:
     if(not impossible):
         possibleIdSum += int(id)
 
-print(possibleIdSum)
+print("Sum of possible game IDs:", possibleIdSum)
 
 # Part 2
 
@@ -51,9 +51,6 @@ for game in games:
         maxRed = max(round.get('red') or 0, maxRed)
         maxGreen = max(round.get('green') or 0, maxGreen)
         maxBlue = max(round.get('blue') or 0, maxBlue)
-    print(game)
-    print(maxRed, maxGreen, maxBlue)
     possiblePowerSum += maxGreen * maxRed * maxBlue
-
-print(possiblePowerSum)
+print("Power sum of possible games:", possiblePowerSum)
     
