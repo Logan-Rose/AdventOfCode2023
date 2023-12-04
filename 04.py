@@ -21,3 +21,23 @@ for round in rounds:
     totalPoints += points
 
 print(totalPoints)
+
+# Part 2 
+
+# Perfect use case for dynamic programming, but quiote short on time today, so I just used a queue
+
+totalPoints = 0
+for round in rounds:
+    [label, numbers] = round.split(':') 
+    cardNo = label.split()[1]
+    [winnersRaw, handRaw] = numbers.split('|')
+    winners = set(winnersRaw.split())
+    hand = handRaw.split()
+    matches = 0 
+    for num in hand:
+        if num in winners:
+            matches +=1
+    for j in range(matches):
+       rounds.append(rounds[int(cardNo)+j]) 
+
+print(len(rounds))
