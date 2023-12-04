@@ -26,11 +26,37 @@ for row in range(len(inputs)):
                 neighbour = safeGetIndex(row+y, col+x, inputs)
                 if neighbour in numbers:
                     fullNumber = getFullNumber(row+y, col+x, inputs)
-                    
                     parts.add(fullNumber)
 
-partNumberSum = 0
+partOneSum = 0
 for (row, start, end) in parts:
-    partNumberSum += int(inputs[row][start:end])
+    partOneSum += int(inputs[row][start:end])
 
-print(partNumberSum)
+print(partOneSum)
+
+# Part 2
+partTwoSum = 0
+parts = set() 
+for row in range(len(inputs)):
+    for col in range(len(inputs[row])):
+        atCurrentIndex = inputs[row][col]
+        if atCurrentIndex == '*':
+            neighbours = [(-1,-1), (-1,0), (-1,1), (0,-1), (0,1), (1, -1), (1,0), (1,1)]
+            adjacentParts = set() 
+            for (y,x) in neighbours:
+                neighbour = safeGetIndex(row+y, col+x, inputs)
+                if neighbour in numbers:
+                    fullNumber = getFullNumber(row+y, col+x, inputs)
+                    adjacentParts.add(fullNumber)
+            if len(adjacentParts) == 2:
+                [rowOne, leftOne, rightOne] = list(adjacentParts)[0]
+                [rowTwo, leftTwo, rightTwo] = list(adjacentParts)[1]
+                partTwoSum += (int(inputs[rowOne][leftOne:rightOne]) * int(inputs[rowTwo][leftTwo:rightTwo]))
+
+# partNumberSum = 0
+# for (row, start, end) in parts:
+#     partNumberSum += int(inputs[row][start:end])
+
+print(partTwoSum)
+
+
