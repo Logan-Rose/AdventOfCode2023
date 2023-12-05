@@ -27,6 +27,7 @@ print(totalPoints)
 # Perfect use case for dynamic programming, but quiote short on time today, so I just used a queue
 
 totalPoints = 0
+memo = [1] * len(rounds)
 for round in rounds:
     [label, numbers] = round.split(':') 
     cardNo = label.split()[1]
@@ -38,6 +39,13 @@ for round in rounds:
         if num in winners:
             matches +=1
     for j in range(matches):
-       rounds.append(rounds[int(cardNo)+j]) 
+      memo[int(cardNo)+j] += 1
 
-print(len(rounds))
+for i in range(len(memo)):
+    reach = memo[i]
+    for j in range(reach):
+        if i+j < len(memo):
+            memo[i+j] += 1 
+
+print(sum(memo))
+
