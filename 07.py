@@ -14,7 +14,6 @@ def getValue(hand):
             pairs +=1
     if pairs == 2:
         return 2
-    
     if 5 in counts.values():
         return 6 
     if 4 in counts.values():
@@ -47,3 +46,48 @@ for i, e in enumerate(enhancedData):
 
 
 print(total)
+
+newRanks = "J023456789TQKA"
+
+def replaceWildCard(hand):
+    counts = {}
+    best = "J"
+    bestCount = 0
+    for card in hand:
+        if card != "J":
+            if card in counts:
+                counts[card] +=1
+            else:
+               counts[card] = 1
+
+            if counts[card] > bestCount:
+                #if newRanks.index(card) > newRanks.index(best):
+                best = card
+                bestCount = counts[card]
+            else:
+                if counts[card] == bestCount and newRanks.index(card) > newRanks.index(best):
+                    best = card
+                    bestCount = counts[card]
+    if hand == "JJJJJ":
+        return "AAAAA"
+    return hand.replace("J", best)
+
+
+enhancedData = []
+total = 0
+for round in rounds:
+    value = getValue(replaceWildCard(round[0]))
+    enhancedData.append({"Old":round[0], "Hand":replaceWildCard(round[0]), "Score": value, "Wager": round[1]})
+
+
+p2Total = 0
+enhancedData.sort(key=lambda x: (x["Score"], newRanks.index(x['Old'][0]), newRanks.index(x['Old'][1]), newRanks.index(x['Old'][2]), newRanks.index(x['Old'][3]), newRanks.index(x['Old'][4])))
+
+for i, e in enumerate(enhancedData):
+    if(e["Old"]=="JJT83"):
+        print(e)
+    p2Total += (1+i) * int(e['Wager'])
+
+print(p2Total)
+
+
